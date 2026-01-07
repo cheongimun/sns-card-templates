@@ -851,6 +851,16 @@
                 <input type="text" id="kakao-cta2" value="놓치기 싫다면?" oninput="updateKakao()">
 
                 <h3>폰트 크기</h3>
+                <label>말풍선</label>
+                <div class="slider-row">
+                    <input type="range" id="kakao-bubble-size" min="12" max="28" value="17" oninput="updateKakao()">
+                    <span class="slider-value" id="kakao-bubble-size-val">17px</span>
+                </div>
+                <label>코멘트 박스</label>
+                <div class="slider-row">
+                    <input type="range" id="kakao-comment-size" min="12" max="24" value="15" oninput="updateKakao()">
+                    <span class="slider-value" id="kakao-comment-size-val">15px</span>
+                </div>
                 <label>서브 텍스트</label>
                 <div class="slider-row">
                     <input type="range" id="kakao-sub-size" min="20" max="50" value="34" oninput="updateKakao()">
@@ -860,6 +870,11 @@
                 <div class="slider-row">
                     <input type="range" id="kakao-main-size" min="28" max="64" value="48" oninput="updateKakao()">
                     <span class="slider-value" id="kakao-main-size-val">48px</span>
+                </div>
+                <label>CTA</label>
+                <div class="slider-row">
+                    <input type="range" id="kakao-cta-size" min="12" max="24" value="17" oninput="updateKakao()">
+                    <span class="slider-value" id="kakao-cta-size-val">17px</span>
                 </div>
 
                 <button class="btn btn-download" onclick="downloadCard('card-kakao-preview')">이미지 다운로드</button>
@@ -1028,12 +1043,26 @@
             document.getElementById('kakao-cta1-display').textContent = document.getElementById('kakao-cta1').value;
             document.getElementById('kakao-cta2-display').textContent = document.getElementById('kakao-cta2').value;
 
+            // 폰트 크기
+            const bubbleSize = document.getElementById('kakao-bubble-size').value;
+            const commentSize = document.getElementById('kakao-comment-size').value;
             const subSize = document.getElementById('kakao-sub-size').value;
             const mainSize = document.getElementById('kakao-main-size').value;
+            const ctaSize = document.getElementById('kakao-cta-size').value;
+
+            // 슬라이더 값 표시
+            document.getElementById('kakao-bubble-size-val').textContent = bubbleSize + 'px';
+            document.getElementById('kakao-comment-size-val').textContent = commentSize + 'px';
             document.getElementById('kakao-sub-size-val').textContent = subSize + 'px';
             document.getElementById('kakao-main-size-val').textContent = mainSize + 'px';
+            document.getElementById('kakao-cta-size-val').textContent = ctaSize + 'px';
+
+            // 스타일 적용
+            document.querySelectorAll('#card-kakao-preview .bubble').forEach(el => el.style.fontSize = bubbleSize + 'px');
+            document.getElementById('kakao-comment-display').style.fontSize = commentSize + 'px';
             document.getElementById('kakao-sub-display').style.fontSize = subSize + 'px';
             document.getElementById('kakao-main-display').style.fontSize = mainSize + 'px';
+            document.querySelector('.cta-text-kakao').style.fontSize = ctaSize + 'px';
         }
 
         // 상담 결과 업데이트
