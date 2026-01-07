@@ -831,8 +831,12 @@
                 <input type="text" id="kakao-name" value="이준호" oninput="updateKakao()">
                 <label>메시지 1</label>
                 <input type="text" id="kakao-msg1" value="잘 지내?" oninput="updateKakao()">
+                <label>시간 1</label>
+                <input type="text" id="kakao-time1" value="오후 8:12" oninput="updateKakao()">
                 <label>메시지 2</label>
                 <textarea id="kakao-msg2" oninput="updateKakao()">그냥.. 어떻게 지내는지 궁금해서 연락했어</textarea>
+                <label>시간 2</label>
+                <input type="text" id="kakao-time2" value="오후 8:13" oninput="updateKakao()">
                 <label>코멘트 박스</label>
                 <textarea id="kakao-comment" oninput="updateKakao()">사주에서 5일에 전 남친 연락 온다고 했는데 진심 왔음;; ㄹㅇ 진짜 뭐라 답해야 함..?</textarea>
 
@@ -871,7 +875,7 @@
                                     <span class="sender-name" id="kakao-name-display">이준호</span>
                                     <div class="message-wrapper">
                                         <div class="bubble" id="kakao-msg1-display">잘 지내?</div>
-                                        <span class="time">오후 8:12</span>
+                                        <span class="time" id="kakao-time1-display">오후 8:12</span>
                                     </div>
                                 </div>
                             </div>
@@ -883,7 +887,7 @@
                                 <span class="sender-name" id="kakao-name-display2">이준호</span>
                                 <div class="message-wrapper">
                                     <div class="bubble" id="kakao-msg2-display">그냥.. 어떻게 지내는지 궁금해서 연락했어</div>
-                                    <span class="time">오후 8:13</span>
+                                    <span class="time" id="kakao-time2-display">오후 8:13</span>
                                 </div>
                             </div>
                         </div>
@@ -920,7 +924,7 @@
                 <label>태그</label>
                 <input type="text" id="consult-tag" value="#지현님의 재회 상담" oninput="updateConsult()">
                 <label>이미지 경로</label>
-                <input type="text" id="consult-img" value="강윤.png" oninput="updateConsult()">
+                <input type="text" id="consult-img" value="c:\Users\user\Desktop\강윤.png" oninput="updateConsult()">
 
                 <h3>본문 ({박스} [밑줄])</h3>
                 <label>문단 1</label>
@@ -1015,7 +1019,9 @@
             document.getElementById('kakao-name-display').textContent = document.getElementById('kakao-name').value;
             document.getElementById('kakao-name-display2').textContent = document.getElementById('kakao-name').value;
             document.getElementById('kakao-msg1-display').textContent = document.getElementById('kakao-msg1').value;
+            document.getElementById('kakao-time1-display').textContent = document.getElementById('kakao-time1').value;
             document.getElementById('kakao-msg2-display').textContent = document.getElementById('kakao-msg2').value;
+            document.getElementById('kakao-time2-display').textContent = document.getElementById('kakao-time2').value;
             document.getElementById('kakao-comment-display').textContent = document.getElementById('kakao-comment').value;
             document.getElementById('kakao-sub-display').textContent = document.getElementById('kakao-sub').value;
             document.getElementById('kakao-main-display').textContent = document.getElementById('kakao-main').value;
@@ -1089,5 +1095,3 @@
     </script>
 </body>
 </html>
-
-
