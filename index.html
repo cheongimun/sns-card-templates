@@ -591,11 +591,14 @@
            템플릿 3: 상담 결과 카드
            ============================================ */
         .card-consult {
-            width: 480px;
+            width: 540px;
+            height: 540px;
             background: #fafafa;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
         }
 
         .card-header-consult {
@@ -629,6 +632,8 @@
         .card-body-consult {
             padding: 28px 32px 36px;
             background: white;
+            flex: 1;
+            overflow: hidden;
         }
 
         .profile-section-consult {
@@ -712,10 +717,8 @@
         }
 
         .highlight-underline {
-            color: #1e1b4b;
-            font-weight: 600;
-            border-bottom: 2px solid #a78bfa;
-            padding-bottom: 1px;
+            color: #4f46e5;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -1104,16 +1107,43 @@
 
         // 이미지 다운로드
         function downloadCard(cardId) {
-            html2canvas(document.getElementById(cardId), {
+            const card = document.getElementById(cardId);
+
+            // 상담 결과 카드인 경우 이미지 임시 숨김
+            let imgEl = null;
+            let placeholder = null;
+            if (cardId === 'card-consult-preview') {
+                imgEl = document.getElementById('consult-img-display');
+                placeholder = document.getElementById('consult-placeholder');
+                if (imgEl) imgEl.style.display = 'none';
+                if (placeholder) placeholder.style.display = 'block';
+            }
+
+            html2canvas(card, {
                 scale: 2,
                 useCORS: true,
-                allowTaint: true,
-                backgroundColor: null
+                allowTaint: false,
+                backgroundColor: null,
+                logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'sns_card_' + Date.now() + '.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
+
+                // 이미지 복원
+                if (cardId === 'card-consult-preview' && imgEl && imgEl.src) {
+                    imgEl.style.display = 'block';
+                    if (placeholder) placeholder.style.display = 'none';
+                }
+            }).catch(err => {
+                alert('이미지 저장 실패: ' + err.message);
+                console.error(err);
+                // 에러 시에도 복원
+                if (cardId === 'card-consult-preview' && imgEl && imgEl.src) {
+                    imgEl.style.display = 'block';
+                    if (placeholder) placeholder.style.display = 'none';
+                }
             });
         }
 
@@ -1124,4 +1154,3 @@
     </script>
 </body>
 </html>
-
