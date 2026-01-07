@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNS 카드 대시보드</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* 헤더 */
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* 탭 네비게이션 */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            padding: 20px 40px;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            color: #888;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(255,255,255,0.3);
+            color: #ccc;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* 메인 컨텐츠 */
+        .main-content {
+            display: flex;
+            padding: 30px 40px;
+            gap: 40px;
+            min-height: calc(100vh - 180px);
+        }
+
+        /* 탭 컨텐츠 */
+        .tab-content {
+            display: none;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: flex;
+            gap: 40px;
+        }
+
+        /* 편집 패널 */
+        .editor {
+            background: #1e1e32;
+            padding: 28px;
+            border-radius: 16px;
+            width: 380px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.08);
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .editor h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .editor h3 {
+            margin-top: 22px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #a78bfa;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .editor label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .editor input, .editor textarea, .editor select {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .editor input:focus, .editor textarea:focus, .editor select:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .editor textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        .editor select {
+            cursor: pointer;
+        }
+
+        /* 슬라이더 */
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .slider-row input[type="range"] {
+            flex: 1;
+            padding: 0;
+            height: 5px;
+            -webkit-appearance: none;
+            background: #333;
+            border-radius: 3px;
+            border: none;
+        }
+
+        .slider-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #6366f1;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            min-width: 42px;
+            text-align: right;
+            font-size: 12px;
+            color: #6366f1;
+        }
+
+        /* 버튼 */
+        .btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* 프리뷰 영역 */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        /* ============================================
+           템플릿 1: 부재중 전화 스타일
+           ============================================ */
+        .card-phone {
+            width: 540px;
+            height: 540px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+        }
+
+        .card-phone.theme-rose {
+            background: linear-gradient(160deg, #2d1f3d 0%, #1a1428 40%, #0f0d14 100%);
+        }
+
+        .card-phone.theme-ocean {
+            background: linear-gradient(160deg, #1a3a4a 0%, #0f2830 40%, #0a1a1f 100%);
+        }
+
+        .card-phone.theme-sunset {
+            background: linear-gradient(160deg, #3d2a1f 0%, #28180f 40%, #140d0a 100%);
+        }
+
+        .card-phone.theme-midnight {
+            background: linear-gradient(160deg, #1e2a4a 0%, #141a30 40%, #0a0d1a 100%);
+        }
+
+        .contact-icons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .theme-rose .icon-circle {
+            background: linear-gradient(135deg, rgba(255,107,157,0.3) 0%, rgba(196,69,105,0.2) 100%);
+            border: 1px solid rgba(255,107,157,0.3);
+        }
+
+        .theme-ocean .icon-circle {
+            background: linear-gradient(135deg, rgba(56,189,248,0.3) 0%, rgba(14,165,233,0.2) 100%);
+            border: 1px solid rgba(56,189,248,0.3);
+        }
+
+        .theme-sunset .icon-circle {
+            background: linear-gradient(135deg, rgba(251,146,60,0.3) 0%, rgba(234,88,12,0.2) 100%);
+            border: 1px solid rgba(251,146,60,0.3);
+        }
+
+        .theme-midnight .icon-circle {
+            background: linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(109,40,217,0.2) 100%);
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+
+        .icon-circle svg {
+            width: 26px;
+            height: 26px;
+            fill: rgba(255,255,255,0.9);
+        }
+
+        .notification {
+            background: rgba(255, 255, 255, 0.97);
+            width: 85%;
+            border-radius: 18px;
+            padding: 16px 20px;
+            margin-top: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .notif-header {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .notif-tab {
+            font-size: 13px;
+            color: #999;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .notif-tab.active {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .notif-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notif-title {
+            font-size: 16px;
+            color: #222;
+            font-weight: 600;
+        }
+
+        .notif-time {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .notif-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+        }
+
+        .prediction-label {
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .theme-rose .prediction-label {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+        }
+
+        .theme-ocean .prediction-label {
+            background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+            color: white;
+        }
+
+        .theme-sunset .prediction-label {
+            background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+            color: white;
+        }
+
+        .theme-midnight .prediction-label {
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .arrow {
+            color: #ccc;
+            font-size: 22px;
+            font-weight: 300;
+        }
+
+        .bottom-text-phone {
+            margin-top: 32px;
+            text-align: center;
+            padding: 0 30px;
+        }
+
+        .strike-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 26px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .main-text-phone {
+            color: white;
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-container-phone {
+            margin-top: 28px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-rose .cta-container-phone {
+            background: rgba(255,107,157,0.15);
+            border: 1px solid rgba(255,107,157,0.3);
+        }
+
+        .theme-ocean .cta-container-phone {
+            background: rgba(56,189,248,0.15);
+            border: 1px solid rgba(56,189,248,0.3);
+        }
+
+        .theme-sunset .cta-container-phone {
+            background: rgba(251,146,60,0.15);
+            border: 1px solid rgba(251,146,60,0.3);
+        }
+
+        .theme-midnight .cta-container-phone {
+            background: rgba(139,92,246,0.15);
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+
+        .cta-text-phone {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .theme-rose .cta-text-phone { color: #ff8fab; }
+        .theme-ocean .cta-text-phone { color: #7dd3fc; }
+        .theme-sunset .cta-text-phone { color: #fdba74; }
+        .theme-midnight .cta-text-phone { color: #c4b5fd; }
+
+        .cta-arrow-phone {
+            font-size: 12px;
+        }
+
+        .theme-rose .cta-arrow-phone { color: #ff8fab; }
+        .theme-ocean .cta-arrow-phone { color: #7dd3fc; }
+        .theme-sunset .cta-arrow-phone { color: #fdba74; }
+        .theme-midnight .cta-arrow-phone { color: #c4b5fd; }
+
+        /* ============================================
+           템플릿 2: 카카오톡 스타일
+           ============================================ */
+        .card-kakao {
+            width: 540px;
+            height: 540px;
+            background: linear-gradient(180deg, #6a8a9a 0%, #5a7a8a 40%, #4a6a7a 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 28px 22px;
+        }
+
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .first-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .message-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .profile-kakao {
+            width: 42px;
+            height: 42px;
+            border-radius: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c9a86c 0%, #8b7355 100%);
+        }
+
+        .message-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sender-name {
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 5px;
+            margin-left: 2px;
+            font-weight: 500;
+        }
+
+        .message-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .bubble {
+            padding: 11px 15px;
+            border-radius: 18px;
+            font-size: 17px;
+            line-height: 1.5;
+            background: white;
+            color: #333;
+            border-top-left-radius: 4px;
+            font-weight: 500;
+        }
+
+        .time {
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+            white-space: nowrap;
+        }
+
+        .comment-box {
+            background: rgba(25, 25, 25, 0.95);
+            color: white;
+            padding: 16px 18px;
+            border-radius: 16px;
+            font-size: 15px;
+            line-height: 1.55;
+            max-width: 210px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .bottom-section-kakao {
+            margin-top: auto;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .sub-text-kakao {
+            font-size: 34px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .main-text-kakao {
+            font-size: 48px;
+            font-weight: 700;
+            color: #7ee8fa;
+            letter-spacing: -1px;
+        }
+
+        .cta-container-kakao {
+            margin-top: 22px;
+            padding: 14px 28px;
+            background: rgba(126, 232, 250, 0.12);
+            border: 1px solid rgba(126, 232, 250, 0.25);
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cta-text-kakao {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .cta-highlight-kakao {
+            font-weight: 700;
+            color: #7ee8fa;
+        }
+
+        .cta-arrow-kakao {
+            font-size: 14px;
+            color: #7ee8fa;
+        }
+
+        /* ============================================
+           템플릿 3: 상담 결과 카드
+           ============================================ */
+        .card-consult {
+            width: 480px;
+            background: #fafafa;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .card-header-consult {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            padding: 40px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header-consult::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-title-consult {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.45;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-body-consult {
+            padding: 28px 32px 36px;
+            background: white;
+        }
+
+        .profile-section-consult {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 24px;
+        }
+
+        .profile-image-consult {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .profile-image-consult img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info-consult {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .profile-name-consult {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e1b4b;
+        }
+
+        .profile-tag-consult {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .content-text-consult {
+            font-size: 15.5px;
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .content-paragraph {
+            margin-bottom: 16px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .content-paragraph:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-paragraph::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 4px;
+            height: 4px;
+            background: #a78bfa;
+            border-radius: 50%;
+        }
+
+        .highlight-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            margin: 0 2px;
+        }
+
+        .highlight-underline {
+            color: #1e1b4b;
+            font-weight: 600;
+            border-bottom: 2px solid #a78bfa;
+            padding-bottom: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <div class="header">
+        <h1>SNS 카드 대시보드</h1>
+        <p>템플릿을 선택하고 텍스트를 수정한 후 이미지로 다운로드하세요</p>
+    </div>
+
+    <!-- 탭 네비게이션 -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('phone')">부재중 전화</button>
+        <button class="tab-btn" onclick="switchTab('kakao')">카카오톡</button>
+        <button class="tab-btn" onclick="switchTab('consult')">상담 결과</button>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="main-content">
+        <!-- ============================================
+             탭 1: 부재중 전화 스타일
+             ============================================ -->
+        <div class="tab-content active" id="tab-phone">
+            <div class="editor">
+                <h2>부재중 전화 스타일</h2>
+
+                <h3>예측 메시지</h3>
+                <label>날짜</label>
+                <input type="text" id="phone-date" value="2월 13일" oninput="updatePhone()">
+                <label>예측 내용</label>
+                <input type="text" id="phone-prediction" value="연락올 확률이 높아요." oninput="updatePhone()">
+
+                <h3>하단 텍스트</h3>
+                <label>서브 텍스트</label>
+                <input type="text" id="phone-sub" value="헤어지면 끝이라던 X" oninput="updatePhone()">
+                <label>메인 카피</label>
+                <textarea id="phone-main" oninput="updatePhone()">울면서 전화 왔다.</textarea>
+                <label>CTA</label>
+                <input type="text" id="phone-cta" value="재회 확률이 높아지는 재회 시기는?" oninput="updatePhone()">
+
+                <h3>스타일</h3>
+                <label>컬러 테마</label>
+                <select id="phone-theme" onchange="updatePhone()">
+                    <option value="rose">로즈 핑크</option>
+                    <option value="ocean">오션 블루</option>
+                    <option value="sunset">선셋 오렌지</option>
+                    <option value="midnight">미드나잇 퍼플</option>
+                </select>
+
+                <h3>폰트 크기</h3>
+                <label>서브 텍스트</label>
+                <div class="slider-row">
+                    <input type="range" id="phone-sub-size" min="18" max="40" value="26" oninput="updatePhone()">
+                    <span class="slider-value" id="phone-sub-size-val">26px</span>
+                </div>
+                <label>메인 카피</label>
+                <div class="slider-row">
+                    <input type="range" id="phone-main-size" min="28" max="56" value="42" oninput="updatePhone()">
+                    <span class="slider-value" id="phone-main-size-val">42px</span>
+                </div>
+                <label>CTA</label>
+                <div class="slider-row">
+                    <input type="range" id="phone-cta-size" min="12" max="24" value="16" oninput="updatePhone()">
+                    <span class="slider-value" id="phone-cta-size-val">16px</span>
+                </div>
+
+                <button class="btn btn-download" onclick="downloadCard('card-phone-preview')">이미지 다운로드</button>
+            </div>
+
+            <div class="preview-area">
+                <div class="card-phone theme-rose" id="card-phone-preview">
+                    <div class="contact-icons">
+                        <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg></div>
+                        <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                        <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></div>
+                        <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+                    </div>
+                    <div class="notification">
+                        <div class="notif-header">
+                            <span class="notif-tab active">세부사항</span>
+                            <span class="notif-tab">음성 메시지</span>
+                        </div>
+                        <div class="notif-content">
+                            <span class="notif-title">부재중 전화</span>
+                            <span class="notif-time">일요일 · 오후 12:25</span>
+                        </div>
+                        <div class="notif-bottom">
+                            <span class="prediction-label" id="phone-prediction-display">2월 13일에 연락올 확률이 높아요.</span>
+                            <span class="arrow">›</span>
+                        </div>
+                    </div>
+                    <div class="bottom-text-phone">
+                        <div class="strike-text" id="phone-sub-display">헤어지면 끝이라던 X</div>
+                        <div class="main-text-phone" id="phone-main-display">울면서 전화 왔다.</div>
+                        <div class="cta-container-phone">
+                            <span class="cta-text-phone" id="phone-cta-display">재회 확률이 높아지는 재회 시기는?</span>
+                            <span class="cta-arrow-phone">▼</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             탭 2: 카카오톡 스타일
+             ============================================ -->
+        <div class="tab-content" id="tab-kakao">
+            <div class="editor">
+                <h2>카카오톡 스타일</h2>
+
+                <h3>대화</h3>
+                <label>상대 이름</label>
+                <input type="text" id="kakao-name" value="이준호" oninput="updateKakao()">
+                <label>메시지 1</label>
+                <input type="text" id="kakao-msg1" value="잘 지내?" oninput="updateKakao()">
+                <label>메시지 2</label>
+                <textarea id="kakao-msg2" oninput="updateKakao()">그냥.. 어떻게 지내는지 궁금해서 연락했어</textarea>
+                <label>코멘트 박스</label>
+                <textarea id="kakao-comment" oninput="updateKakao()">사주에서 5일에 전 남친 연락 온다고 했는데 진심 왔음;; ㄹㅇ 진짜 뭐라 답해야 함..?</textarea>
+
+                <h3>하단 텍스트</h3>
+                <label>서브 텍스트</label>
+                <input type="text" id="kakao-sub" value="전 남친한테" oninput="updateKakao()">
+                <label>메인 카피</label>
+                <input type="text" id="kakao-main" value="일주일 안에 연락 옴" oninput="updateKakao()">
+                <label>CTA 앞부분</label>
+                <input type="text" id="kakao-cta1" value="마지막일지 모르는 재회 타이밍," oninput="updateKakao()">
+                <label>CTA 강조</label>
+                <input type="text" id="kakao-cta2" value="놓치기 싫다면?" oninput="updateKakao()">
+
+                <h3>폰트 크기</h3>
+                <label>서브 텍스트</label>
+                <div class="slider-row">
+                    <input type="range" id="kakao-sub-size" min="20" max="50" value="34" oninput="updateKakao()">
+                    <span class="slider-value" id="kakao-sub-size-val">34px</span>
+                </div>
+                <label>메인 카피</label>
+                <div class="slider-row">
+                    <input type="range" id="kakao-main-size" min="28" max="64" value="48" oninput="updateKakao()">
+                    <span class="slider-value" id="kakao-main-size-val">48px</span>
+                </div>
+
+                <button class="btn btn-download" onclick="downloadCard('card-kakao-preview')">이미지 다운로드</button>
+            </div>
+
+            <div class="preview-area">
+                <div class="card-kakao" id="card-kakao-preview">
+                    <div class="chat-area">
+                        <div class="first-row">
+                            <div class="message-row">
+                                <div class="profile-kakao"><div class="profile-placeholder"></div></div>
+                                <div class="message-container">
+                                    <span class="sender-name" id="kakao-name-display">이준호</span>
+                                    <div class="message-wrapper">
+                                        <div class="bubble" id="kakao-msg1-display">잘 지내?</div>
+                                        <span class="time">오후 8:12</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment-box" id="kakao-comment-display">사주에서 5일에 전 남친 연락 온다고 했는데 진심 왔음;; ㄹㅇ 진짜 뭐라 답해야 함..?</div>
+                        </div>
+                        <div class="message-row">
+                            <div class="profile-kakao"><div class="profile-placeholder"></div></div>
+                            <div class="message-container">
+                                <span class="sender-name" id="kakao-name-display2">이준호</span>
+                                <div class="message-wrapper">
+                                    <div class="bubble" id="kakao-msg2-display">그냥.. 어떻게 지내는지 궁금해서 연락했어</div>
+                                    <span class="time">오후 8:13</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-section-kakao">
+                        <div class="sub-text-kakao" id="kakao-sub-display">전 남친한테</div>
+                        <div class="main-text-kakao" id="kakao-main-display">일주일 안에 연락 옴</div>
+                        <div class="cta-container-kakao">
+                            <span class="cta-text-kakao">
+                                <span id="kakao-cta1-display">마지막일지 모르는 재회 타이밍,</span>
+                                <span class="cta-highlight-kakao" id="kakao-cta2-display">놓치기 싫다면?</span>
+                            </span>
+                            <span class="cta-arrow-kakao">▼</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             탭 3: 상담 결과 카드
+             ============================================ -->
+        <div class="tab-content" id="tab-consult">
+            <div class="editor">
+                <h2>상담 결과 카드</h2>
+
+                <h3>상단 타이틀</h3>
+                <textarea id="consult-title" oninput="updateConsult()">칼같은 전남친한테
+먼저 연락 왔어요</textarea>
+
+                <h3>프로필</h3>
+                <label>이름/브랜드</label>
+                <input type="text" id="consult-name" value="강윤의 연애보감" oninput="updateConsult()">
+                <label>태그</label>
+                <input type="text" id="consult-tag" value="#지현님의 재회 상담" oninput="updateConsult()">
+                <label>이미지 경로</label>
+                <input type="text" id="consult-img" value="c:\Users\user\Desktop\강윤.png" oninput="updateConsult()">
+
+                <h3>본문 ({박스} [밑줄])</h3>
+                <label>문단 1</label>
+                <textarea id="consult-p1" oninput="updateConsult()">개 속마음 보니까 {3일} 내 연락 오겠다</textarea>
+                <label>문단 2</label>
+                <textarea id="consult-p2" oninput="updateConsult()">둘이 궁합이 서로를 보완해주는 좋은 궁합이라 재회 가능성이 {90%} 아주 높아 보여.</textarea>
+                <label>문단 3</label>
+                <textarea id="consult-p3" oninput="updateConsult()">남자 쪽에서 헤어진 걸 엄청 후회하고 있어서 [전화를 받아주기만 해도 울면서 미안]하다고 하겠네.</textarea>
+
+                <h3>폰트 크기</h3>
+                <label>타이틀</label>
+                <div class="slider-row">
+                    <input type="range" id="consult-title-size" min="20" max="40" value="28" oninput="updateConsult()">
+                    <span class="slider-value" id="consult-title-size-val">28px</span>
+                </div>
+                <label>본문</label>
+                <div class="slider-row">
+                    <input type="range" id="consult-body-size" min="13" max="22" value="15" oninput="updateConsult()">
+                    <span class="slider-value" id="consult-body-size-val">15px</span>
+                </div>
+
+                <button class="btn btn-download" onclick="downloadCard('card-consult-preview')">이미지 다운로드</button>
+            </div>
+
+            <div class="preview-area">
+                <div class="card-consult" id="card-consult-preview">
+                    <div class="card-header-consult">
+                        <div class="header-title-consult" id="consult-title-display">칼같은 전남친한테<br>먼저 연락 왔어요</div>
+                    </div>
+                    <div class="card-body-consult">
+                        <div class="profile-section-consult">
+                            <div class="profile-image-consult">
+                                <img id="consult-img-display" src="" style="display:none;">
+                                <div id="consult-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#c7d2fe,#a5b4fc);"></div>
+                            </div>
+                            <div class="profile-info-consult">
+                                <span class="profile-name-consult" id="consult-name-display">강윤의 연애보감</span>
+                                <span class="profile-tag-consult" id="consult-tag-display">#지현님의 재회 상담</span>
+                            </div>
+                        </div>
+                        <div class="content-text-consult" id="consult-content">
+                            <p class="content-paragraph" id="consult-p1-display"></p>
+                            <p class="content-paragraph" id="consult-p2-display"></p>
+                            <p class="content-paragraph" id="consult-p3-display"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        // 탭 전환
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        // 부재중 전화 업데이트
+        function updatePhone() {
+            const date = document.getElementById('phone-date').value;
+            const prediction = document.getElementById('phone-prediction').value;
+            document.getElementById('phone-prediction-display').textContent = date + '에 ' + prediction;
+            document.getElementById('phone-sub-display').textContent = document.getElementById('phone-sub').value;
+            document.getElementById('phone-main-display').textContent = document.getElementById('phone-main').value;
+            document.getElementById('phone-cta-display').textContent = document.getElementById('phone-cta').value;
+
+            const theme = document.getElementById('phone-theme').value;
+            const card = document.getElementById('card-phone-preview');
+            card.className = 'card-phone theme-' + theme;
+
+            // 폰트 크기
+            const subSize = document.getElementById('phone-sub-size').value;
+            const mainSize = document.getElementById('phone-main-size').value;
+            const ctaSize = document.getElementById('phone-cta-size').value;
+
+            document.getElementById('phone-sub-size-val').textContent = subSize + 'px';
+            document.getElementById('phone-main-size-val').textContent = mainSize + 'px';
+            document.getElementById('phone-cta-size-val').textContent = ctaSize + 'px';
+
+            document.getElementById('phone-sub-display').style.fontSize = subSize + 'px';
+            document.getElementById('phone-main-display').style.fontSize = mainSize + 'px';
+            document.getElementById('phone-cta-display').style.fontSize = ctaSize + 'px';
+        }
+
+        // 카카오톡 업데이트
+        function updateKakao() {
+            document.getElementById('kakao-name-display').textContent = document.getElementById('kakao-name').value;
+            document.getElementById('kakao-name-display2').textContent = document.getElementById('kakao-name').value;
+            document.getElementById('kakao-msg1-display').textContent = document.getElementById('kakao-msg1').value;
+            document.getElementById('kakao-msg2-display').textContent = document.getElementById('kakao-msg2').value;
+            document.getElementById('kakao-comment-display').textContent = document.getElementById('kakao-comment').value;
+            document.getElementById('kakao-sub-display').textContent = document.getElementById('kakao-sub').value;
+            document.getElementById('kakao-main-display').textContent = document.getElementById('kakao-main').value;
+            document.getElementById('kakao-cta1-display').textContent = document.getElementById('kakao-cta1').value;
+            document.getElementById('kakao-cta2-display').textContent = document.getElementById('kakao-cta2').value;
+
+            const subSize = document.getElementById('kakao-sub-size').value;
+            const mainSize = document.getElementById('kakao-main-size').value;
+            document.getElementById('kakao-sub-size-val').textContent = subSize + 'px';
+            document.getElementById('kakao-main-size-val').textContent = mainSize + 'px';
+            document.getElementById('kakao-sub-display').style.fontSize = subSize + 'px';
+            document.getElementById('kakao-main-display').style.fontSize = mainSize + 'px';
+        }
+
+        // 상담 결과 업데이트
+        function updateConsult() {
+            const title = document.getElementById('consult-title').value;
+            document.getElementById('consult-title-display').innerHTML = title.replace(/\n/g, '<br>');
+            document.getElementById('consult-name-display').textContent = document.getElementById('consult-name').value;
+            document.getElementById('consult-tag-display').textContent = document.getElementById('consult-tag').value;
+
+            const imgPath = document.getElementById('consult-img').value;
+            const imgEl = document.getElementById('consult-img-display');
+            const placeholder = document.getElementById('consult-placeholder');
+            if (imgPath && imgPath.trim() !== '') {
+                imgEl.src = imgPath.startsWith('c:') || imgPath.startsWith('C:') ? 'file:///' + imgPath.replace(/\\/g, '/') : imgPath;
+                imgEl.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                imgEl.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+
+            function parseText(text) {
+                text = text.replace(/\{([^}]+)\}/g, '<span class="highlight-box">$1</span>');
+                text = text.replace(/\[([^\]]+)\]/g, '<span class="highlight-underline">$1</span>');
+                return text;
+            }
+
+            document.getElementById('consult-p1-display').innerHTML = parseText(document.getElementById('consult-p1').value);
+            document.getElementById('consult-p2-display').innerHTML = parseText(document.getElementById('consult-p2').value);
+            document.getElementById('consult-p3-display').innerHTML = parseText(document.getElementById('consult-p3').value);
+
+            const titleSize = document.getElementById('consult-title-size').value;
+            const bodySize = document.getElementById('consult-body-size').value;
+            document.getElementById('consult-title-size-val').textContent = titleSize + 'px';
+            document.getElementById('consult-body-size-val').textContent = bodySize + 'px';
+            document.getElementById('consult-title-display').style.fontSize = titleSize + 'px';
+            document.getElementById('consult-content').style.fontSize = bodySize + 'px';
+        }
+
+        // 이미지 다운로드
+        function downloadCard(cardId) {
+            html2canvas(document.getElementById(cardId), {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'sns_card_' + Date.now() + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // 초기화
+        updatePhone();
+        updateKakao();
+        updateConsult();
+    </script>
+</body>
+</html>
