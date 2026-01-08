@@ -602,7 +602,6 @@
         }
 
         .card-header-consult {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
             padding: 40px 32px;
             position: relative;
             overflow: hidden;
@@ -615,8 +614,88 @@
             right: -20%;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
             border-radius: 50%;
+        }
+
+        /* 상담 결과 테마들 */
+        .card-consult.theme-indigo .card-header-consult {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        }
+        .card-consult.theme-indigo .card-header-consult::before {
+            background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+        }
+        .card-consult.theme-indigo .highlight-box {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        }
+        .card-consult.theme-indigo .content-paragraph::before {
+            background: #a78bfa;
+        }
+        .card-consult.theme-indigo .highlight-underline {
+            color: #4f46e5;
+        }
+
+        .card-consult.theme-rose .card-header-consult {
+            background: linear-gradient(135deg, #831843 0%, #be185d 100%);
+        }
+        .card-consult.theme-rose .card-header-consult::before {
+            background: radial-gradient(circle, rgba(251,113,133,0.15) 0%, transparent 70%);
+        }
+        .card-consult.theme-rose .highlight-box {
+            background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+        }
+        .card-consult.theme-rose .content-paragraph::before {
+            background: #fb7185;
+        }
+        .card-consult.theme-rose .highlight-underline {
+            color: #e11d48;
+        }
+
+        .card-consult.theme-ocean .card-header-consult {
+            background: linear-gradient(135deg, #164e63 0%, #0e7490 100%);
+        }
+        .card-consult.theme-ocean .card-header-consult::before {
+            background: radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%);
+        }
+        .card-consult.theme-ocean .highlight-box {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+        }
+        .card-consult.theme-ocean .content-paragraph::before {
+            background: #22d3ee;
+        }
+        .card-consult.theme-ocean .highlight-underline {
+            color: #0891b2;
+        }
+
+        .card-consult.theme-forest .card-header-consult {
+            background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+        }
+        .card-consult.theme-forest .card-header-consult::before {
+            background: radial-gradient(circle, rgba(74,222,128,0.15) 0%, transparent 70%);
+        }
+        .card-consult.theme-forest .highlight-box {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        }
+        .card-consult.theme-forest .content-paragraph::before {
+            background: #4ade80;
+        }
+        .card-consult.theme-forest .highlight-underline {
+            color: #16a34a;
+        }
+
+        .card-consult.theme-amber .card-header-consult {
+            background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+        }
+        .card-consult.theme-amber .card-header-consult::before {
+            background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
+        }
+        .card-consult.theme-amber .highlight-box {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+        }
+        .card-consult.theme-amber .content-paragraph::before {
+            background: #fbbf24;
+        }
+        .card-consult.theme-amber .highlight-underline {
+            color: #d97706;
         }
 
         .header-title-consult {
@@ -708,7 +787,6 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
             color: white;
             padding: 2px 10px;
             border-radius: 6px;
@@ -717,8 +795,228 @@
         }
 
         .highlight-underline {
-            color: #4f46e5;
             font-weight: 700;
+        }
+
+        /* ============================================
+           레이아웃 2: 메신저형 (Messenger Style)
+           ============================================ */
+        .card-messenger {
+            width: 540px;
+            height: 540px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .messenger-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 16px;
+        }
+
+        .messenger-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+        }
+
+        .messenger-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .messenger-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .messenger-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: hidden;
+        }
+
+        .msg-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .msg-row.user {
+            justify-content: flex-end;
+        }
+
+        .msg-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+        }
+
+        .msg-avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .msg-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .msg-bubble.bot {
+            background: white;
+            color: #1f2937;
+            border-top-left-radius: 4px;
+        }
+
+        .msg-bubble.user {
+            color: white;
+            border-top-right-radius: 4px;
+        }
+        .card-messenger.theme-indigo .msg-bubble.user { background: #4f46e5; }
+        .card-messenger.theme-rose .msg-bubble.user { background: #e11d48; }
+        .card-messenger.theme-ocean .msg-bubble.user { background: #0891b2; }
+        .card-messenger.theme-forest .msg-bubble.user { background: #16a34a; }
+        .card-messenger.theme-amber .msg-bubble.user { background: #d97706; }
+
+        .msg-reaction {
+            align-self: flex-end;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #6b7280;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-top: 8px;
+        }
+
+        /* ============================================
+           레이아웃 3: 결과카드형 (ChatGPT Style)
+           ============================================ */
+        .card-result {
+            width: 540px;
+            height: 540px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .result-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+        }
+
+        .result-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .result-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .result-status {
+            padding: 12px 24px;
+            font-size: 13px;
+            color: #6b7280;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .result-chat {
+            flex: 1;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow: hidden;
+        }
+
+        .result-bot-msg {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #374151;
+        }
+
+        .result-bot-msg strong {
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .result-user-msg {
+            align-self: flex-end;
+            background: #f3f4f6;
+            padding: 10px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .result-highlight-text {
+            font-weight: 700;
+            color: #111827;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .result-footer {
+            padding: 12px 24px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .result-icon {
+            width: 20px;
+            height: 20px;
+            fill: #9ca3af;
+            cursor: pointer;
+        }
+
+        .result-input {
+            flex: 1;
+            padding: 10px 16px;
+            background: #f9fafb;
+            border: 1px solid #e5e5e5;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #9ca3af;
         }
     </style>
 </head>
@@ -950,6 +1248,22 @@
                 <input type="file" id="consult-img-file" accept="image/*" onchange="loadImageFile()" style="margin-bottom:8px;">
                 <input type="text" id="consult-img" value="강윤.png" oninput="updateConsult()" placeholder="또는 URL 직접 입력">
 
+                <h3>스타일</h3>
+                <label>레이아웃</label>
+                <select id="consult-layout" onchange="changeConsultLayout()">
+                    <option value="default">기본형</option>
+                    <option value="messenger">메신저형</option>
+                    <option value="result">결과카드형</option>
+                </select>
+                <label>컬러 테마</label>
+                <select id="consult-theme" onchange="updateConsult()">
+                    <option value="indigo">인디고 퍼플</option>
+                    <option value="rose">로즈 핑크</option>
+                    <option value="ocean">오션 블루</option>
+                    <option value="forest">포레스트 그린</option>
+                    <option value="amber">앰버 골드</option>
+                </select>
+
                 <h3>본문 ({박스} [밑줄])</h3>
                 <label>문단 1</label>
                 <textarea id="consult-p1" oninput="updateConsult()">개 속마음 보니까 {3일} 내 연락 오겠다</textarea>
@@ -974,7 +1288,7 @@
             </div>
 
             <div class="preview-area">
-                <div class="card-consult" id="card-consult-preview">
+                <div class="card-consult theme-indigo" id="card-consult-preview">
                     <div class="card-header-consult">
                         <div class="header-title-consult" id="consult-title-display">칼같은 전남친한테<br>먼저 연락 왔어요</div>
                     </div>
@@ -1122,11 +1436,14 @@
                 reader.onload = function(e) {
                     const dataUrl = e.target.result;
                     consultImageDataUrl = dataUrl;
-                    const imgEl = document.getElementById('consult-img-display');
+                    // 모든 레이아웃의 이미지 업데이트
+                    const allImgs = document.querySelectorAll('#card-consult-preview img');
+                    allImgs.forEach(img => {
+                        img.src = dataUrl;
+                        img.style.display = 'block';
+                    });
                     const placeholder = document.getElementById('consult-placeholder');
-                    imgEl.src = dataUrl;
-                    imgEl.style.display = 'block';
-                    placeholder.style.display = 'none';
+                    if (placeholder) placeholder.style.display = 'none';
                     document.getElementById('consult-img').value = file.name;
                 };
                 reader.readAsDataURL(file);
@@ -1145,31 +1462,167 @@
             updateConsult();
         }
 
+        // 레이아웃 변경
+        function changeConsultLayout() {
+            const layout = document.getElementById('consult-layout').value;
+            const theme = document.getElementById('consult-theme').value;
+            const previewArea = document.querySelector('#tab-consult .preview-area');
+
+            const title = document.getElementById('consult-title').value;
+            const name = document.getElementById('consult-name').value;
+            const tag = document.getElementById('consult-tag').value;
+            // data URL이 있으면 사용, 없으면 입력된 경로 사용
+            const imgPath = consultImageDataUrl || document.getElementById('consult-img').value;
+
+            function parseText(text) {
+                text = text.replace(/\{([^}]+)\}/g, '<span class="highlight-box">$1</span>');
+                text = text.replace(/\[([^\]]+)\]/g, '<span class="highlight-underline">$1</span>');
+                return text;
+            }
+
+            const p1 = parseText(document.getElementById('consult-p1').value);
+            const p2 = parseText(document.getElementById('consult-p2').value);
+            const p3 = parseText(document.getElementById('consult-p3').value);
+
+            let html = '';
+
+            if (layout === 'default') {
+                html = `
+                <div class="card-consult theme-${theme}" id="card-consult-preview">
+                    <div class="card-header-consult">
+                        <div class="header-title-consult" id="consult-title-display">${title.replace(/\n/g, '<br>')}</div>
+                    </div>
+                    <div class="card-body-consult">
+                        <div class="profile-section-consult">
+                            <div class="profile-image-consult">
+                                <img id="consult-img-display" src="${imgPath}" style="display:block;">
+                                <div id="consult-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#c7d2fe,#a5b4fc);display:none;"></div>
+                            </div>
+                            <div class="profile-info-consult">
+                                <span class="profile-name-consult" id="consult-name-display">${name}</span>
+                                <span class="profile-tag-consult" id="consult-tag-display">${tag}</span>
+                            </div>
+                        </div>
+                        <div class="content-text-consult" id="consult-content">
+                            <p class="content-paragraph" id="consult-p1-display">${p1}</p>
+                            <p class="content-paragraph" id="consult-p2-display">${p2}</p>
+                            <p class="content-paragraph" id="consult-p3-display">${p3}</p>
+                        </div>
+                    </div>
+                </div>`;
+            } else if (layout === 'messenger') {
+                html = `
+                <div class="card-messenger theme-${theme}" id="card-consult-preview">
+                    <div class="messenger-header">
+                        <div class="messenger-avatar">
+                            <img src="${imgPath}" style="display:block;">
+                        </div>
+                        <div class="messenger-name" id="consult-name-display">${name}</div>
+                    </div>
+                    <div class="messenger-chat">
+                        <div class="msg-row">
+                            <div class="msg-avatar-small">
+                                <img src="${imgPath}" style="display:block;">
+                            </div>
+                            <div class="msg-bubble bot" id="consult-p1-display">${p1}</div>
+                        </div>
+                        <div class="msg-row user">
+                            <div class="msg-bubble user">${title.replace(/\n/g, ' ')}</div>
+                        </div>
+                        <div class="msg-row">
+                            <div class="msg-avatar-small">
+                                <img src="${imgPath}" style="display:block;">
+                            </div>
+                            <div class="msg-bubble bot" id="consult-p2-display">${p2}</div>
+                        </div>
+                        <div class="msg-row">
+                            <div class="msg-avatar-small">
+                                <img src="${imgPath}" style="display:block;">
+                            </div>
+                            <div class="msg-bubble bot" id="consult-p3-display">${p3}</div>
+                        </div>
+                        <div class="msg-reaction">와.... 개소름이야</div>
+                    </div>
+                </div>`;
+            } else if (layout === 'result') {
+                // ChatGPT 스타일 - {텍스트}를 굵은 글씨로 변환
+                function toBold(text) {
+                    return text.replace(/\{([^}]+)\}/g, '<strong>$1</strong>').replace(/\[([^\]]+)\]/g, '<strong>$1</strong>');
+                }
+                const p1Bold = toBold(document.getElementById('consult-p1').value);
+                const p2Bold = toBold(document.getElementById('consult-p2').value);
+                const p3Bold = toBold(document.getElementById('consult-p3').value);
+
+                html = `
+                <div class="card-result theme-${theme}" id="card-consult-preview">
+                    <div class="result-header">
+                        <div class="result-avatar">
+                            <img src="${imgPath}" style="display:block;">
+                        </div>
+                        <div class="result-name" id="consult-name-display">${name}</div>
+                    </div>
+                    <div class="result-status">사주 분석이 완료됐습니다</div>
+                    <div class="result-chat">
+                        <div class="result-bot-msg" id="consult-p1-display">${p1Bold}</div>
+                        <div class="result-user-msg">${title.replace(/\n/g, ' ')}</div>
+                        <div class="result-bot-msg" id="consult-p2-display">${p2Bold}</div>
+                        <div class="result-bot-msg" id="consult-p3-display">${p3Bold}</div>
+                    </div>
+                    <div class="result-footer">
+                        <svg class="result-icon" viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                        <svg class="result-icon" viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                        <svg class="result-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        <svg class="result-icon" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+                        <div class="result-input">내 운세를 물어보세요</div>
+                    </div>
+                </div>`;
+            }
+
+            previewArea.innerHTML = html;
+        }
+
         // 상담 결과 업데이트
         function updateConsult() {
+            const layout = document.getElementById('consult-layout').value;
+
+            // 레이아웃이 기본형이 아니면 레이아웃 변경 함수 호출
+            if (layout !== 'default') {
+                changeConsultLayout();
+                return;
+            }
+
             const title = document.getElementById('consult-title').value;
-            document.getElementById('consult-title-display').innerHTML = title.replace(/\n/g, '<br>');
-            document.getElementById('consult-name-display').textContent = document.getElementById('consult-name').value;
-            document.getElementById('consult-tag-display').textContent = document.getElementById('consult-tag').value;
+            const titleDisplay = document.getElementById('consult-title-display');
+            const nameDisplay = document.getElementById('consult-name-display');
+            const tagDisplay = document.getElementById('consult-tag-display');
+
+            if (titleDisplay) titleDisplay.innerHTML = title.replace(/\n/g, '<br>');
+            if (nameDisplay) nameDisplay.textContent = document.getElementById('consult-name').value;
+            if (tagDisplay) tagDisplay.textContent = document.getElementById('consult-tag').value;
+
+            // 테마 적용
+            const theme = document.getElementById('consult-theme').value;
+            const card = document.getElementById('card-consult-preview');
+            if (card) card.className = 'card-consult theme-' + theme;
 
             const imgPath = document.getElementById('consult-img').value;
             const imgEl = document.getElementById('consult-img-display');
             const placeholder = document.getElementById('consult-placeholder');
-            if (imgPath && imgPath.trim() !== '') {
-                const newSrc = imgPath.startsWith('c:') || imgPath.startsWith('C:') ? 'file:///' + imgPath.replace(/\\/g, '/') : imgPath;
-                if (imgEl.src !== newSrc) {
+            if (imgEl) {
+                // data URL이 있으면 사용
+                if (consultImageDataUrl) {
+                    imgEl.src = consultImageDataUrl;
+                    imgEl.style.display = 'block';
+                    if (placeholder) placeholder.style.display = 'none';
+                } else if (imgPath && imgPath.trim() !== '') {
+                    const newSrc = imgPath.startsWith('c:') || imgPath.startsWith('C:') ? 'file:///' + imgPath.replace(/\\/g, '/') : imgPath;
                     imgEl.src = newSrc;
-                    // 이미지 로드 후 data URL로 변환
-                    imgEl.onload = async function() {
-                        consultImageDataUrl = await convertImageToDataUrl(imgEl);
-                    };
+                    imgEl.style.display = 'block';
+                    if (placeholder) placeholder.style.display = 'none';
+                } else {
+                    imgEl.style.display = 'none';
+                    if (placeholder) placeholder.style.display = 'block';
                 }
-                imgEl.style.display = 'block';
-                placeholder.style.display = 'none';
-            } else {
-                imgEl.style.display = 'none';
-                placeholder.style.display = 'block';
-                consultImageDataUrl = null;
             }
 
             function parseText(text) {
@@ -1178,16 +1631,20 @@
                 return text;
             }
 
-            document.getElementById('consult-p1-display').innerHTML = parseText(document.getElementById('consult-p1').value);
-            document.getElementById('consult-p2-display').innerHTML = parseText(document.getElementById('consult-p2').value);
-            document.getElementById('consult-p3-display').innerHTML = parseText(document.getElementById('consult-p3').value);
+            const p1 = document.getElementById('consult-p1-display');
+            const p2 = document.getElementById('consult-p2-display');
+            const p3 = document.getElementById('consult-p3-display');
+            if (p1) p1.innerHTML = parseText(document.getElementById('consult-p1').value);
+            if (p2) p2.innerHTML = parseText(document.getElementById('consult-p2').value);
+            if (p3) p3.innerHTML = parseText(document.getElementById('consult-p3').value);
 
             const titleSize = document.getElementById('consult-title-size').value;
             const bodySize = document.getElementById('consult-body-size').value;
             document.getElementById('consult-title-size-val').textContent = titleSize + 'px';
             document.getElementById('consult-body-size-val').textContent = bodySize + 'px';
-            document.getElementById('consult-title-display').style.fontSize = titleSize + 'px';
-            document.getElementById('consult-content').style.fontSize = bodySize + 'px';
+            if (titleDisplay) titleDisplay.style.fontSize = titleSize + 'px';
+            const content = document.getElementById('consult-content');
+            if (content) content.style.fontSize = bodySize + 'px';
         }
 
         // 이미지 다운로드
@@ -1199,23 +1656,16 @@
                 useCORS: true,
                 allowTaint: false,
                 backgroundColor: null,
-                logging: true,
+                logging: false,
                 onclone: function(clonedDoc) {
-                    // 폰트가 로드될 시간을 주기 위해 클론된 문서에서 폰트 스타일 적용
-                    const style = clonedDoc.createElement('style');
-                    style.textContent = `
-                        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; }
-                    `;
-                    clonedDoc.head.appendChild(style);
-
                     // 상담 결과 카드인 경우 이미지를 data URL로 교체
                     if (cardId === 'card-consult-preview' && consultImageDataUrl) {
-                        const clonedImg = clonedDoc.getElementById('consult-img-display');
+                        const clonedImgs = clonedDoc.querySelectorAll('#card-consult-preview img');
+                        clonedImgs.forEach(img => {
+                            img.src = consultImageDataUrl;
+                            img.style.display = 'block';
+                        });
                         const clonedPlaceholder = clonedDoc.getElementById('consult-placeholder');
-                        if (clonedImg) {
-                            clonedImg.src = consultImageDataUrl;
-                            clonedImg.style.display = 'block';
-                        }
                         if (clonedPlaceholder) {
                             clonedPlaceholder.style.display = 'none';
                         }
